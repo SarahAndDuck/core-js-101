@@ -353,8 +353,17 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  let divider = num;
+  let result = Math.floor(divider / n);
+  const remainder = [divider % n];
+
+  while (result > 0) {
+    divider = result;
+    result = Math.floor(divider / n);
+    remainder.push(divider % n);
+  }
+  return remainder.reverse().join('');
 }
 
 /**
@@ -406,8 +415,29 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const res = [];
+  const arr = [];
+  const newArr = [];
+
+  const l = m1.length;
+  const m = m2.length;
+  const n = m2[0].length;
+
+  for (let i = 0; i < l; i += 1) {
+    for (let j = 0; j < n; j += 1) {
+      for (let r = 0; r < m; r += 1) {
+        res.push(m1[i][r] * m2[r][j]);
+      }
+
+      arr.push(res.reduce((acc, item) => acc + item, 0));
+      res.length = 0;
+    }
+    newArr.push([...arr]);
+
+    arr.length = 0;
+  }
+  return newArr;
 }
 
 /**
