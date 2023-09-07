@@ -329,8 +329,35 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const brackets = {
+    '}': '{',
+    ']': '[',
+    '>': '<',
+    ')': '(',
+  };
+
+  const newArr = str.split('');
+  const newOpenArr = [];
+
+  for (let i = 0; i < newArr.length; i += 1) {
+    if (Object.values(brackets).includes(newArr[i])) {
+      newOpenArr.push(newArr[i]);
+    } else if (
+      Object.keys(brackets).includes(newArr[i])
+      && newOpenArr.length === 0
+    ) return false;
+    else if (
+      Object.keys(brackets).includes(newArr[i])
+      && newOpenArr[newOpenArr.length - 1] !== brackets[newArr[i]]
+    ) return false;
+    else if (
+      Object.keys(brackets).includes(newArr[i])
+      && newOpenArr[newOpenArr.length - 1] === brackets[newArr[i]]
+    ) newOpenArr.pop(newOpenArr.length - 1);
+  }
+  if (newOpenArr.length !== 0) return false;
+  return true;
 }
 
 /**
@@ -470,8 +497,42 @@ function getMatrixProduct(m1, m2) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const arr = [];
+  position.forEach((item) => {
+    if (item.length === 3) arr.push(...item);
+    else if (item.length === 2) arr.push(...item, undefined);
+    else if (item.length === 1) arr.push(...item, undefined, undefined);
+  });
+  if (arr.length !== 9) return undefined;
+  const WIN_RULES = [
+    [7, 8, 9], //  # - top horizontal line
+    [4, 5, 6], //  # - middle  horizontal line
+    [1, 2, 3], //  # - bottom horizontal line
+    [1, 4, 7], //  # - left vertical line
+    [2, 5, 8], //  # - middle vertical line
+    [3, 6, 9], //  # - right vertical line
+    [3, 5, 7], //  # - \ line
+    [1, 5, 9], //   # - / line
+  ];
+  let result;
+  for (let i = 0; i < WIN_RULES.length; i += 1) {
+    if (
+      arr[WIN_RULES[i][0] - 1] === arr[WIN_RULES[i][1] - 1]
+      && arr[WIN_RULES[i][1] - 1] === arr[WIN_RULES[i][2] - 1]
+      && arr[WIN_RULES[i][2] - 1] === 'X'
+    ) {
+      result = 'X';
+    }
+    if (
+      arr[WIN_RULES[i][0] - 1] === arr[WIN_RULES[i][1] - 1]
+      && arr[WIN_RULES[i][1] - 1] === arr[WIN_RULES[i][2] - 1]
+      && arr[WIN_RULES[i][2] - 1] === '0'
+    ) {
+      result = '0';
+    }
+  }
+  return result;
 }
 
 module.exports = {
